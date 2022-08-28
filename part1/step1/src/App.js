@@ -1,31 +1,42 @@
-import Header from "./components/Header"
-import Content from "./components/Content"
-import Total from "./components/Total"
+import { useState } from 'react'
+import React from 'react'
+import Statistics from './components/Statistics'
 
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        exercises: 14
-      }
-    ]
+  // save clicks of each button to its own state
+  const [good, setGood] = useState(0)
+  const [neutral, setNeutral] = useState(0)
+  const [bad, setBad] = useState(0)
+  const [avg,setAvg] = useState(0)
+  const [showStats, setShowStats] = useState(false)
+
+  const setToGood = (val) => {
+    setShowStats(true)
+    setGood(val)
+    setAvg(avg+1)
   }
+
+  const setToBad = (val) => {
+    setShowStats(true)
+    setBad(val)
+    setAvg(avg-1)
+  }
+
+  const setToNeutral = (val) => {
+    setShowStats(true)
+    setNeutral(val)
+  }
+
   return (
     <div>
-      <Header course = {course.name}/>
-      <Content parts={course.parts}/>
-      <Total parts={course.parts}/>
-    </div>
+      <h1>give feedback</h1>
+      <button onClick={() => setToGood(good+1)}>good</button>
+      <button onClick={() => setToNeutral(neutral+1)}>neutral</button>
+      <button onClick={() => setToBad(bad+1)}>bad</button>
+      { showStats
+       ? <Statistics good={good} bad={bad} neutral={neutral} avg={avg}/>
+       : <p>No feedback given</p> }
+      </div>
   )
 }
 
