@@ -11,14 +11,29 @@ const App = () => {
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.'
   ]
-  const [random, setRandom] = useState(0)
-  const setRandomFn = () => setRandom(Math.floor(Math.random() * anecdotes.length));
 
+  const [arrOfVotes, setArrOfVotes] = useState(new Array(anecdotes.length).fill(0));
+  const [random, setRandom] = useState(0)
+  const setRandomFn = () => {
+    setRandom(Math.floor(Math.random() * anecdotes.length));
+  }
+  const onVote = () => {
+    const copy = [...arrOfVotes]
+    copy[random] += 1;
+    setArrOfVotes(copy)
+  }
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[random]}
       <br/>
+      <p>has {arrOfVotes[random]} votes</p>
+      <br/>
+      <button onClick={() => onVote()}>vote</button>
       <button onClick={() => setRandomFn()}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[arrOfVotes.indexOf(Math.max(...arrOfVotes))]}</p>
+      <p>has {arrOfVotes[arrOfVotes.indexOf(Math.max(...arrOfVotes))]} votes</p>
     </div>
   )
 }
